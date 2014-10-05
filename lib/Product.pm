@@ -7,14 +7,19 @@ use Time::Local 'timelocal';
 our $VERSION = "0.01";
 
 sub validate{
- my $arg = shift;
+ my ($arg,$type) = @_;
 
- if($arg =~ /(\d+):(\d+):(\d+)/){
+ if($type eq "int"){
+   return  $arg =~ /^[0-9]+$/;
+ }elsif($type eq "date"){
+  if($arg =~ /(\d+):(\d+):(\d+)/){
    return day_exist($1,$2,$3);
+  }
+ }elsif($type eq "str"){
+   return $arg =~ /[a-zA-Z]+/;
  }
 
- return "int" if $arg =~ /[0-9]+/;
- return "str" if $arg =~ /\w+/;
+ return 0;
 }
 
 sub day_exist{
@@ -28,7 +33,7 @@ sub day_exist{
     Time::Local::timelocal(0,0,0,$mday,$mon,$year);
   };
 
-  return $@ ? 0 :"date";
+  return $@ ? 0 : 1;
 }
 
 1;
