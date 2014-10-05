@@ -12,8 +12,8 @@ run{
 __DATA__
 
 ===
---- input: 2014:10:05
---- expected: date
+--- input: 2014:99:99
+--- expected: 0
 ===
 --- input: 204
 --- expected: int

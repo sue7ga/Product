@@ -2,20 +2,36 @@ package Product;
 use 5.008005;
 use strict;
 use warnings;
+use Time::Local 'timelocal';
 
 our $VERSION = "0.01";
 
 sub validate{
  my $arg = shift;
 
- return "date" if $arg =~ /(\d+):(\d+):(\d+)/;
+ if($arg =~ /(\d+):(\d+):(\d+)/){
+   return day_exist($1,$2,$3);
+ }
+
  return "int" if $arg =~ /[0-9]+/;
  return "str" if $arg =~ /\w+/;
+}
 
+sub day_exist{
+  my($year,$mon,$mday) = @_;
+
+  $year -= 1900;
+  $mon--;
+
+  require Time::Local;
+  eval{
+    Time::Local::timelocal(0,0,0,$mday,$mon,$year);
+  };
+
+  return $@ ? 0 :"date";
 }
 
 1;
-
 
 
 __END__

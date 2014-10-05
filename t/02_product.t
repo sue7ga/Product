@@ -55,5 +55,22 @@ subtest 'Date' => sub{
    isnt(Product::validate($not_ok),"date");
   }
  };
+ 
+ my @validate_date   = ("2014:04:24","2013:01:22","2012:12:21","2015:04:25","9999:02:22");
+ my @invalidate_date = ("2014:88:02","2014:02:88","8888:88:88");
+
+ subtest 'validate_date' => sub{
+   
+  for my $validate_date(@validate_date){ 
+   is(Product::validate($validate_date),"date");
+  }
+ 
+  for my $invalidate_date(@invalidate_date){
+    is(Product::validate($invalidate_date),0);
+  }
+  
+ };  
 
 };
+
+done_testing;
