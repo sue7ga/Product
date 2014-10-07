@@ -10,13 +10,13 @@ sub validate{
  my ($arg,$type) = @_;
 
  if($type eq "int"){
-   return  $arg =~ /^[0-9]+$/;
+   return  $arg =~ /^-?[0-9]+$/;
  }elsif($type eq "date"){
-  if($arg =~ /(\d+):(\d+):(\d+)/){
+  if($arg =~ /(\d+):(\d\d):(\d\d+)/){
    return day_exist($1,$2,$3);
   }
  }elsif($type eq "str"){
-   return $arg =~ /[a-zA-Z]+/;
+   return $arg =~ /\w+/;
  }
 
  return 0;
