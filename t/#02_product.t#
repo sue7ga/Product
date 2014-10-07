@@ -10,7 +10,7 @@ subtest 'str validate' => sub{
   ok(Product::validate("2014:04:23","str"));
   ok(Product::validate("1000000000","str"));
   ok(Product::validate("-1000","str"));
-  ok(Product::validate("product124","str"));
+  ok(Product::vaolidate("product124","str"));
   ok(Product::validate(2.5,"str"));
 };
 

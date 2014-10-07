@@ -8,17 +8,17 @@ use DateTime;
 our $VERSION = "0.01";
 
 sub validate{
- my ($arg,$type) = @_;
+    my ($arg,$type) = @_;
 
- if($type eq "int"){
-   return  $arg =~ /^-?[0-9]+$/;
- }elsif($type eq "date"){
-  return _check_date($arg);
- }elsif($type eq "str"){
-   return $arg =~ /\w+/;
- }
+    if ($type eq "int") {
+        return  $arg =~ /^-?[0-9]+$/;
+    } elsif ($type eq "date") {
+        return _check_date($arg);
+    } elsif ($type eq "str") {
+        return $arg =~ /\w+/;
+    }
 
- return 0;
+    return 0;
 }
 
 sub _check_date {
@@ -36,17 +36,14 @@ sub _check_date {
 }
 
 sub day_exist{
-  my($year,$mon,$mday) = @_;
-
-  $year -= 1900;
-  $mon--;
+  my ($year,$mon,$mday) = @_;
 
   require Time::Local;
-  eval{
-    Time::Local::timelocal(0,0,0,$mday,$mon,$year);
+  my $ret = eval{
+    Time::Local::timelocal(0,0,0,$mday,$mon - 1,$year - 1900);
   };
 
-  return $@ ? 0 : 1;
+  return $ret ? 0 : 1;
 }
 
 1;
