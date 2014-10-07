@@ -3,6 +3,7 @@ use 5.008005;
 use strict;
 use warnings;
 use Time::Local 'timelocal';
+use DateTime;
 
 our $VERSION = "0.01";
 
@@ -12,14 +13,26 @@ sub validate{
  if($type eq "int"){
    return  $arg =~ /^-?[0-9]+$/;
  }elsif($type eq "date"){
-  if($arg =~ /(\d+):(\d\d):(\d\d+)/){
-   return day_exist($1,$2,$3);
-  }
+  return _check_date($arg);
  }elsif($type eq "str"){
    return $arg =~ /\w+/;
  }
 
  return 0;
+}
+
+sub _check_date {
+    my ( $date, $obj ) = @_;
+
+    return 1 unless $date;
+
+    my ( $year, $month, $day ) = $date =~ m{^(\d+)[-/](\d+)[-/](\d+)$};
+    my $datetime = eval {
+        DateTime->new(year => $year, month => $month, day => $day, hour => 0, minute => 0, second => 0);
+    };
+    $$obj = $datetime if $obj;
+ 
+  return $datetime ? 1 : 0;
 }
 
 sub day_exist{
